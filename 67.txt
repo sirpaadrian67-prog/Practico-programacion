@@ -1,0 +1,32 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int nAlumnos = 0;
+    int *notas;
+    string *nombres;
+
+    cout << "Ingrese el numero de alumnos a ingresar: ";
+    cin >> nAlumnos;
+
+    notas = new int[nAlumnos];
+
+    nombres = new string[nAlumnos];
+
+    for(int i = 0; i < nAlumnos; i++) {
+        cout << "Ingrese el nombre nro " << i+1<<": ";
+        cin >> nombres[i];
+        cout << "Ingrese su nota: ";
+        cin >> notas[i];
+
+    }
+
+    cout << "\n\n Esta es la informacion de los alumnos: \n";
+    for(int i = 0; i < nAlumnos; i++) {
+        cout << "La nota del alumno " << nombres[i] << " es: " << notas[i] << " puntos." << endl; 
+    }
+
+    delete[] notas;
+    delete[] nombres;
+}
