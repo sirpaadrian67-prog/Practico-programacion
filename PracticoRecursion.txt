@@ -1,0 +1,1160 @@
+#include <iostream>
+using namespace std;
+class Vector {
+    private:
+    static const int TOPE = 100;
+    int datos[TOPE];
+    int cant;
+
+    public:
+    Vector() {
+        cant = 0;
+    }
+
+    // ejercicio 1
+    void leer(int cantidad, int k) {
+        if (k == 0) {
+            cant = cantidad;
+        }
+        if (k >= cant) return;
+
+        cout << "Ingresa el elemento " << k + 1 << ": ";
+        cin >> datos[k];
+
+        leer(cantidad, k + 1);
+    }
+
+    // ejercicio 2
+    void imprimir(int k) {
+        if (k == 0) {
+            cout << "[";
+        }
+        if (k >= cant) {
+            cout << "]" << endl;
+            return;
+        }
+
+        cout << datos[k];
+        if (k != cant - 1) {
+            cout << ", ";
+        }
+
+        imprimir(k + 1);
+    }
+
+    // ejercicio 3 (se llama con k = cantidad - 1)
+    void imprimirAlReves(int k) {
+        if (k == cant - 1) {
+            cout << "[";
+        }
+        if (k < 0) {
+            cout << "]" << endl;
+            return;
+        }
+
+        cout << datos[k];
+        if (k != 0) {
+            cout << ", ";
+        }
+
+        imprimirAlReves(k - 1);
+    }
+
+    // ejercicio 4
+    int suma(int k) {
+        if (k >= cant) return 0;
+
+        int resto = suma(k + 1);
+        return datos[k] + resto;
+    }
+
+    // ejercicio 5
+    int cuantosPares(int k) {
+        if (k >= cant) return 0;
+
+        int resto = cuantosPares(k + 1);
+        if (datos[k] % 2 == 0) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    // ejercicio 6 (una pasada por cada tipo)
+    int cuantosPositivos(int k) {
+        if (k >= cant) return 0;
+        int resto = cuantosPositivos(k + 1);
+        if (datos[k] > 0) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    int cuantosNegativos(int k) {
+        if (k >= cant) return 0;
+
+        int resto = cuantosNegativos(k + 1);
+        if (datos[k] < 0) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    int cuantosCeros(int k) {
+        if (k >= cant) return 0;
+
+        int resto = cuantosCeros(k + 1);
+        if (datos[k] == 0) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    // ejercicio 7
+    double media() {
+        if (cant == 0) return 0;
+
+        double total = suma(0);
+        return total / cant;
+    }
+
+    // ejercicio 8
+    int cuantosMultiplos(int k, int divisor) {
+        if (k >= cant) return 0;
+
+        int resto = cuantosMultiplos(k + 1, divisor);
+        if (datos[k] % divisor == 0) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    // ejercicio 9
+    int maximo(int k) {
+        if (k == cant - 1) return datos[k];
+
+        int resto = maximo(k + 1);
+        if (datos[k] > resto) {
+            return datos[k];
+        }
+        return resto;
+    }
+
+    // ejercicio 10
+    int minimo(int k) {
+        if (k == cant - 1) return datos[k];
+
+        int resto = minimo(k + 1);
+        if (datos[k] < resto) {
+            return datos[k];
+        }
+        return resto;
+    }
+
+    // ejercicio 11
+    int posicionDe(int valor, int k) {
+        if (k >= cant) return -1;
+
+        if (datos[k] == valor) {
+            return k;
+        }
+        return posicionDe(valor, k + 1);
+    }
+
+    // ejercicio 12
+    int repeticiones(int valor, int k) {
+        if (k >= cant) return 0;
+
+        int resto = repeticiones(valor, k + 1);
+        if (datos[k] == valor) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    // ejercicio 13
+    void cambiar(int viejo, int nuevo, int k) {
+        if (k >= cant) return;
+
+        if (datos[k] == viejo) {
+            datos[k] = nuevo;
+        }
+        cambiar(viejo, nuevo, k + 1);
+    }
+
+    // ejercicio 14 (se llama con izq = 0 y der = cantidad - 1)
+    void darVuelta(int izq, int der) {
+        if (izq >= der) return;
+
+        int temp = datos[izq];
+        datos[izq] = datos[der];
+        datos[der] = temp;
+
+        darVuelta(izq + 1, der - 1);
+    }
+
+    // ejercicio 15
+    bool estaOrdenado(int k) {
+        if (k >= cant - 1) return true;
+
+        if (datos[k] >= datos[k + 1]) {
+            return false;
+        }
+        return estaOrdenado(k + 1);
+    }
+
+    // ejercicio 16 (una pasada para cada suma)
+    int sumaPosPares(int k) {
+        if (k >= cant) return 0;
+
+        int resto = sumaPosPares(k + 1);
+        if (k % 2 == 0) {
+            return datos[k] + resto;
+        }
+        return resto;
+    }
+
+    int sumaPosImpares(int k) {
+        if (k >= cant) return 0;
+
+        int resto = sumaPosImpares(k + 1);
+        if (k % 2 != 0) {
+            return datos[k] + resto;
+        }
+        return resto;
+    }
+
+    // ejercicio 17
+    void quitarPos(int p) {
+        if (p < 0 || p >= cant) return;
+
+        if (p == cant - 1) {
+            cant = cant - 1;
+            return;
+        }
+
+        datos[p] = datos[p + 1];
+        quitarPos(p + 1);
+    }
+
+    // ejercicio 18 (ordenamiento burbuja recursivo)
+    void burbujear(int k, int limite) {
+        if (k >= limite - 1) return;
+
+        if (datos[k] > datos[k + 1]) {
+            int temp = datos[k];
+            datos[k] = datos[k + 1];
+            datos[k + 1] = temp;
+        }
+
+        burbujear(k + 1, limite);
+    }
+
+    void ordenar(int limite) {
+        if (limite <= 1) return;
+
+        burbujear(0, limite);
+        ordenar(limite - 1);
+    }
+
+    // ejercicio 19 (el vector tiene que estar ordenado)
+    int binaria(int valor, int bajo, int alto) {
+        if (bajo > alto) return -1;
+
+        int medio = (bajo + alto) / 2;
+
+        if (datos[medio] == valor) {
+            return medio;
+        }
+        if (valor < datos[medio]) {
+            return binaria(valor, bajo, medio - 1);
+        }
+        return binaria(valor, medio + 1, alto);
+    }
+
+    // ejercicio 20
+    void quitarRepetidos(int k) {
+        if (k >= cant) return;
+
+        // si ya aparecio antes, se borra
+        if (posicionDe(datos[k], 0) < k) {
+            quitarPos(k);
+            quitarRepetidos(k);
+        } else {
+            quitarRepetidos(k + 1);
+        }
+    }
+
+    // ejercicio 21 (se llama con a = 0 y b = cantidad - 1)
+    void paresPrimero(int a, int b) {
+        if (a >= b) return;
+
+        if (datos[a] % 2 == 0) {
+            paresPrimero(a + 1, b);
+            return;
+        }
+        if (datos[b] % 2 != 0) {
+            paresPrimero(a, b - 1);
+            return;
+        }
+
+        int temp = datos[a];
+        datos[a] = datos[b];
+        datos[b] = temp;
+
+        paresPrimero(a + 1, b - 1);
+    }
+
+    // ejercicio 22
+    void correrUno(int k, int guardado) {
+        if (k == 0) {
+            datos[0] = guardado;
+            return;
+        }
+
+        datos[k] = datos[k - 1];
+        correrUno(k - 1, guardado);
+    }
+
+    void rotar(int veces) {
+        if (cant <= 1) return;
+        if (veces <= 0) return;
+
+        int ultimo = datos[cant - 1];
+        correrUno(cant - 1, ultimo);
+
+        rotar(veces - 1);
+    }
+
+    // ejercicio 23 (prueba desde cada posicion)
+    int largoDesde(int k) {
+        if (k >= cant - 1) return 1;
+
+        if (datos[k + 1] > datos[k]) {
+            return 1 + largoDesde(k + 1);
+        }
+        return 1;
+    }
+
+    int tramoCreciente(int k) {
+        if (k >= cant) return 0;
+
+        int aca = largoDesde(k);
+        int resto = tramoCreciente(k + 1);
+
+        if (aca > resto) {
+            return aca;
+        }
+        return resto;
+    }
+
+    // ejercicio 24 (busca el mas grande que sea menor que limite)
+    int segundoMaximo(int k, int limite, bool &hay) {
+        if (k >= cant) {
+            hay = false;
+            return 0;
+        }
+
+        int resto = segundoMaximo(k + 1, limite, hay);
+
+        if (datos[k] < limite) {
+            if (!hay || datos[k] > resto) {
+                hay = true;
+                return datos[k];
+            }
+        }
+        return resto;
+    }
+
+    // ejercicio 25 (prueba todos los segmentos)
+    int sumaTramo(int ini, int fin) {
+        if (ini > fin) return 0;
+
+        return datos[ini] + sumaTramo(ini + 1, fin);
+    }
+
+    int mejorDesde(int ini, int fin) {
+        int aca = sumaTramo(ini, fin);
+        if (fin == cant - 1) return aca;
+
+        int resto = mejorDesde(ini, fin + 1);
+        if (aca > resto) {
+            return aca;
+        }
+        return resto;
+    }
+
+    int mejorSegmento(int ini) {
+        int aca = mejorDesde(ini, ini);
+        if (ini == cant - 1) return aca;
+
+        int resto = mejorSegmento(ini + 1);
+        if (aca > resto) {
+            return aca;
+        }
+        return resto;
+    }
+
+    int getCant() {
+        return cant;
+    }
+};
+
+
+class Matriz {
+    private:
+    static const int TOPE = 100;
+    int tabla[TOPE][TOPE];
+    int nf;
+    int nc;
+
+    public:
+    Matriz() {
+        nf = 0;
+        nc = 0;
+    }
+    Matriz(int f, int c) {
+        nf = f;
+        nc = c;
+    }
+
+    int getDato(int f, int c) {
+        return tabla[f][c];
+    }
+
+    // ejercicio 26
+    void leer(int f, int c) {
+        if (f >= nf) return;
+
+        if (c >= nc) {
+            leer(f + 1, 0);
+            return;
+        }
+
+        cout << "Elemento [" << f << "][" << c << "]: ";
+        cin >> tabla[f][c];
+
+        leer(f, c + 1);
+    }
+
+    // ejercicio 27
+    void imprimir(int f, int c) {
+        if (f >= nf) return;
+
+        if (c == 0) {
+            cout << "[";
+        }
+        if (c >= nc) {
+            cout << "]" << endl;
+            imprimir(f + 1, 0);
+            return;
+        }
+
+        cout << tabla[f][c];
+        if (c != nc - 1) {
+            cout << "\t";
+        }
+
+        imprimir(f, c + 1);
+    }
+
+    // ejercicio 28 (y 34: suma de una fila)
+    int sumaFila(int f, int c) {
+        if (c >= nc) return 0;
+
+        return tabla[f][c] + sumaFila(f, c + 1);
+    }
+
+    int sumaTodo(int f) {
+        if (f >= nf) return 0;
+
+        int estaFila = sumaFila(f, 0);
+        return estaFila + sumaTodo(f + 1);
+    }
+
+    // ejercicio 29 (una pasada para cada cuenta)
+    int cuantosPares(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return cuantosPares(f + 1, 0);
+
+        int resto = cuantosPares(f, c + 1);
+        if (tabla[f][c] % 2 == 0) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    int cuantosImpares(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return cuantosImpares(f + 1, 0);
+
+        int resto = cuantosImpares(f, c + 1);
+        if (tabla[f][c] % 2 != 0) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    // ejercicio 30 (y 42: mayor de una fila)
+    int maximoFila(int f, int c) {
+        if (c == nc - 1) return tabla[f][c];
+
+        int resto = maximoFila(f, c + 1);
+        if (tabla[f][c] > resto) {
+            return tabla[f][c];
+        }
+        return resto;
+    }
+
+    int maximo(int f) {
+        int estaFila = maximoFila(f, 0);
+        if (f == nf - 1) return estaFila;
+
+        int resto = maximo(f + 1);
+        if (estaFila > resto) {
+            return estaFila;
+        }
+        return resto;
+    }
+
+    // ejercicio 31 (primero el valor, despues se busca donde esta)
+    int minimoFila(int f, int c) {
+        if (c == nc - 1) return tabla[f][c];
+
+        int resto = minimoFila(f, c + 1);
+        if (tabla[f][c] < resto) {
+            return tabla[f][c];
+        }
+        return resto;
+    }
+
+    int minimo(int f) {
+        int estaFila = minimoFila(f, 0);
+        if (f == nf - 1) return estaFila;
+
+        int resto = minimo(f + 1);
+        if (estaFila < resto) {
+            return estaFila;
+        }
+        return resto;
+    }
+
+    void minimoConPosicion(int &valor, int &fMin, int &cMin) {
+        valor = minimo(0);
+        buscar(valor, 0, 0, fMin, cMin);
+    }
+
+    // ejercicio 32 (una pasada por cada tipo)
+    int cuantosPositivos(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return cuantosPositivos(f + 1, 0);
+
+        int resto = cuantosPositivos(f, c + 1);
+        if (tabla[f][c] > 0) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    int cuantosNegativos(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return cuantosNegativos(f + 1, 0);
+
+        int resto = cuantosNegativos(f, c + 1);
+        if (tabla[f][c] < 0) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    int cuantosCeros(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return cuantosCeros(f + 1, 0);
+
+        int resto = cuantosCeros(f, c + 1);
+        if (tabla[f][c] == 0) {
+            return 1 + resto;
+        }
+        return resto;
+    }
+
+    // ejercicio 33
+    bool buscar(int valor, int f, int c, int &fHallada, int &cHallada) {
+        if (f >= nf) {
+            fHallada = -1;
+            cHallada = -1;
+            return false;
+        }
+        if (c >= nc) {
+            return buscar(valor, f + 1, 0, fHallada, cHallada);
+        }
+
+        if (tabla[f][c] == valor) {
+            fHallada = f;
+            cHallada = c;
+            return true;
+        }
+
+        return buscar(valor, f, c + 1, fHallada, cHallada);
+    }
+
+    // ejercicio 34
+    void mostrarSumaFilas(int f) {
+        if (f >= nf) return;
+
+        cout << "Fila " << f << ": " << sumaFila(f, 0) << endl;
+        mostrarSumaFilas(f + 1);
+    }
+
+    // ejercicio 35
+    int sumaColumna(int f, int c) {
+        if (f >= nf) return 0;
+
+        return tabla[f][c] + sumaColumna(f + 1, c);
+    }
+
+    void mostrarSumaColumnas(int c) {
+        if (c >= nc) return;
+
+        cout << "Columna " << c << ": " << sumaColumna(0, c) << endl;
+        mostrarSumaColumnas(c + 1);
+    }
+
+    // ejercicio 36
+    int diagonalPrincipal(int k) {
+        if (k >= nf || k >= nc) return 0;
+
+        return tabla[k][k] + diagonalPrincipal(k + 1);
+    }
+
+    // ejercicio 37
+    int diagonalSecundaria(int k) {
+        if (k >= nf || k >= nc) return 0;
+
+        return tabla[k][nc - 1 - k] + diagonalSecundaria(k + 1);
+    }
+
+    // ejercicio 38 (una pasada para cada suma)
+    int sumaEncima(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return sumaEncima(f + 1, 0);
+
+        int resto = sumaEncima(f, c + 1);
+        if (f < c) {
+            return tabla[f][c] + resto;
+        }
+        return resto;
+    }
+
+    int sumaDebajo(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return sumaDebajo(f + 1, 0);
+
+        int resto = sumaDebajo(f, c + 1);
+        if (f > c) {
+            return tabla[f][c] + resto;
+        }
+        return resto;
+    }
+
+    // ejercicio 39
+    bool esBorde(int f, int c) {
+        if (f == 0) return true;
+        if (f == nf - 1) return true;
+        if (c == 0) return true;
+        if (c == nc - 1) return true;
+        return false;
+    }
+
+    void imprimirBorde(int f, int c) {
+        if (f >= nf) return;
+
+        if (c == 0) {
+            cout << "[";
+        }
+        if (c >= nc) {
+            cout << "]" << endl;
+            imprimirBorde(f + 1, 0);
+            return;
+        }
+
+        if (esBorde(f, c)) {
+            cout << tabla[f][c];
+        } else {
+            cout << " ";
+        }
+        if (c != nc - 1) {
+            cout << "\t";
+        }
+
+        imprimirBorde(f, c + 1);
+    }
+
+    // ejercicio 40 (suma todo y le resta lo de adentro)
+    int sumaInterior(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return sumaInterior(f + 1, 0);
+
+        int resto = sumaInterior(f, c + 1);
+        if (!esBorde(f, c)) {
+            return tabla[f][c] + resto;
+        }
+        return resto;
+    }
+
+    int sumaBorde() {
+        int todo = sumaTodo(0);
+        int adentro = sumaInterior(0, 0);
+        return todo - adentro;
+    }
+
+    // ejercicio 41
+    void imprimirTranspuesta(int c, int f) {
+        if (c >= nc) return;
+
+        if (f == 0) {
+            cout << "[";
+        }
+        if (f >= nf) {
+            cout << "]" << endl;
+            imprimirTranspuesta(c + 1, 0);
+            return;
+        }
+
+        cout << tabla[f][c];
+        if (f != nf - 1) {
+            cout << "\t";
+        }
+
+        imprimirTranspuesta(c, f + 1);
+    }
+
+    // ejercicio 42
+    void mostrarMaximoFilas(int f) {
+        if (f >= nf) return;
+
+        cout << "Fila " << f << ": " << maximoFila(f, 0) << endl;
+        mostrarMaximoFilas(f + 1);
+    }
+
+    // ejercicio 43
+    bool esSimetrica(int f, int c) {
+        if (nf != nc) return false;
+        if (f >= nf) return true;
+        if (c >= nc) return esSimetrica(f + 1, 0);
+
+        if (tabla[f][c] != tabla[c][f]) {
+            return false;
+        }
+        return esSimetrica(f, c + 1);
+    }
+
+    // ejercicio 44 (se llama con c = 0 y f = filas - 1)
+    void imprimirRotada(int c, int f) {
+        if (c >= nc) return;
+
+        if (f == nf - 1) {
+            cout << "[";
+        }
+        if (f < 0) {
+            cout << "]" << endl;
+            imprimirRotada(c + 1, nf - 1);
+            return;
+        }
+
+        cout << tabla[f][c];
+        if (f != 0) {
+            cout << "\t";
+        }
+
+        imprimirRotada(c, f - 1);
+    }
+
+    // ejercicio 45
+    void ladoArriba(int fila, int desde, int hasta) {
+        if (desde > hasta) return;
+
+        cout << tabla[fila][desde] << " ";
+        ladoArriba(fila, desde + 1, hasta);
+    }
+
+    void ladoDerecho(int col, int desde, int hasta) {
+        if (desde > hasta) return;
+
+        cout << tabla[desde][col] << " ";
+        ladoDerecho(col, desde + 1, hasta);
+    }
+
+    void ladoAbajo(int fila, int desde, int hasta) {
+        if (desde < hasta) return;
+
+        cout << tabla[fila][desde] << " ";
+        ladoAbajo(fila, desde - 1, hasta);
+    }
+
+    void ladoIzquierdo(int col, int desde, int hasta) {
+        if (desde < hasta) return;
+
+        cout << tabla[desde][col] << " ";
+        ladoIzquierdo(col, desde - 1, hasta);
+    }
+
+    void espiral(int arriba, int abajo, int izq, int der) {
+        if (arriba > abajo || izq > der) {
+            cout << endl;
+            return;
+        }
+
+        ladoArriba(arriba, izq, der);
+        ladoDerecho(der, arriba + 1, abajo);
+
+        if (arriba < abajo) {
+            ladoAbajo(abajo, der - 1, izq);
+        }
+        if (izq < der) {
+            ladoIzquierdo(izq, abajo - 1, arriba + 1);
+        }
+
+        espiral(arriba + 1, abajo - 1, izq + 1, der - 1);
+    }
+
+    // ejercicio 46
+    bool esTriangularSup(int f, int c) {
+        if (nf != nc) return false;
+        if (f >= nf) return true;
+        if (c >= nc) return esTriangularSup(f + 1, 0);
+
+        if (f > c) {
+            if (tabla[f][c] != 0) {
+                return false;
+            }
+        }
+        return esTriangularSup(f, c + 1);
+    }
+
+    // ejercicio 47 (los triangulos incluyen la diagonal)
+    int sumaTrianguloSup(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return sumaTrianguloSup(f + 1, 0);
+
+        int resto = sumaTrianguloSup(f, c + 1);
+        if (f <= c) {
+            return tabla[f][c] + resto;
+        }
+        return resto;
+    }
+
+    int sumaTrianguloInf(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return sumaTrianguloInf(f + 1, 0);
+
+        int resto = sumaTrianguloInf(f, c + 1);
+        if (f >= c) {
+            return tabla[f][c] + resto;
+        }
+        return resto;
+    }
+
+    // ejercicio 48 (minimo de su fila y maximo de su columna)
+    int maximoColumna(int f, int c) {
+        if (f == nf - 1) return tabla[f][c];
+
+        int resto = maximoColumna(f + 1, c);
+        if (tabla[f][c] > resto) {
+            return tabla[f][c];
+        }
+        return resto;
+    }
+
+    int puntosSilla(int f, int c) {
+        if (f >= nf) return 0;
+        if (c >= nc) return puntosSilla(f + 1, 0);
+
+        int encontrados = 0;
+        int menorFila = minimoFila(f, 0);
+        int mayorCol = maximoColumna(0, c);
+
+        if (tabla[f][c] == menorFila && tabla[f][c] == mayorCol) {
+            cout << "Punto de silla: valor " << tabla[f][c] << "; fila " << f << "; columna " << c << endl;
+            encontrados = 1;
+        }
+
+        return encontrados + puntosSilla(f, c + 1);
+    }
+
+    // ejercicio 49
+    int seguidos(int f, int c, int pasoF, int pasoC, int valor) {
+        if (f < 0 || f >= nf) return 0;
+        if (c < 0 || c >= nc) return 0;
+        if (tabla[f][c] != valor) return 0;
+
+        return 1 + seguidos(f + pasoF, c + pasoC, pasoF, pasoC, valor);
+    }
+
+    void repetir(int valor, int veces) {
+        if (veces <= 0) return;
+
+        cout << valor;
+        if (veces != 1) {
+            cout << ", ";
+        }
+        repetir(valor, veces - 1);
+    }
+
+    bool haySecuencia(int f, int c, int largo) {
+        if (f >= nf) return false;
+        if (c >= nc) return haySecuencia(f + 1, 0, largo);
+
+        int valor = tabla[f][c];
+        int horizontal = seguidos(f, c, 0, 1, valor);
+        int vertical = seguidos(f, c, 1, 0, valor);
+        int diagonal1 = seguidos(f, c, 1, 1, valor);
+        int diagonal2 = seguidos(f, c, 1, -1, valor);
+
+        if (horizontal >= largo) {
+            cout << "Si existe: horizontal [";
+            repetir(valor, largo);
+            cout << "]" << endl;
+            return true;
+        }
+        if (vertical >= largo) {
+            cout << "Si existe: vertical [";
+            repetir(valor, largo);
+            cout << "]" << endl;
+            return true;
+        }
+        if (diagonal1 >= largo) {
+            cout << "Si existe: diagonal principal [";
+            repetir(valor, largo);
+            cout << "]" << endl;
+            return true;
+        }
+        if (diagonal2 >= largo) {
+            cout << "Si existe: diagonal secundaria [";
+            repetir(valor, largo);
+            cout << "]" << endl;
+            return true;
+        }
+
+        return haySecuencia(f, c + 1, largo);
+    }
+
+    // ejercicio 50 (solo se puede ir a la derecha o abajo)
+    int mejorCamino(int f, int c) {
+        if (f == nf - 1 && c == nc - 1) {
+            return tabla[f][c];
+        }
+        if (f == nf - 1) {
+            return tabla[f][c] + mejorCamino(f, c + 1);
+        }
+        if (c == nc - 1) {
+            return tabla[f][c] + mejorCamino(f + 1, c);
+        }
+
+        int porDerecha = mejorCamino(f, c + 1);
+        int porAbajo = mejorCamino(f + 1, c);
+
+        if (porDerecha > porAbajo) {
+            return tabla[f][c] + porDerecha;
+        }
+        return tabla[f][c] + porAbajo;
+    }
+
+    void imprimirCamino(int f, int c) {
+        cout << tabla[f][c];
+
+        if (f == nf - 1 && c == nc - 1) {
+            cout << endl;
+            return;
+        }
+
+        cout << " -> ";
+
+        if (f == nf - 1) {
+            imprimirCamino(f, c + 1);
+            return;
+        }
+        if (c == nc - 1) {
+            imprimirCamino(f + 1, c);
+            return;
+        }
+
+        int porDerecha = mejorCamino(f, c + 1);
+        int porAbajo = mejorCamino(f + 1, c);
+
+        if (porDerecha > porAbajo) {
+            imprimirCamino(f, c + 1);
+        } else {
+            imprimirCamino(f + 1, c);
+        }
+    }
+};
+
+
+
+int main() {
+    // ---------------- VECTORES ----------------
+    Vector vec;
+    int n;
+
+    cout << "Cantidad de elementos del vector (1 a 100): ";
+    cin >> n;
+
+    vec.leer(n, 0);
+
+    cout << "Vector: ";
+    vec.imprimir(0);
+
+    cout << "Vector al reves: ";
+    vec.imprimirAlReves(vec.getCant() - 1);
+
+    cout << "Suma: " << vec.suma(0) << endl;
+    cout << "Pares: " << vec.cuantosPares(0) << endl;
+
+    cout << "Positivos: " << vec.cuantosPositivos(0) << endl;
+    cout << "Negativos: " << vec.cuantosNegativos(0) << endl;
+    cout << "Ceros: " << vec.cuantosCeros(0) << endl;
+
+    cout << "Promedio: " << vec.media() << endl;
+    cout << "Multiplos de 3: " << vec.cuantosMultiplos(0, 3) << endl;
+
+    cout << "Mayor: " << vec.maximo(0) << endl;
+    cout << "Menor: " << vec.minimo(0) << endl;
+
+    cout << "Posicion de 3: " << vec.posicionDe(3, 0) << endl;
+    cout << "Veces que aparece 3: " << vec.repeticiones(3, 0) << endl;
+
+    cout << "Esta ordenado?: " << (vec.estaOrdenado(0) ? "Si" : "No") << endl;
+
+    cout << "Suma indices pares: " << vec.sumaPosPares(0) << endl;
+    cout << "Suma indices impares: " << vec.sumaPosImpares(0) << endl;
+
+    cout << "Longitud maxima creciente: " << vec.tramoCreciente(0) << endl;
+
+    bool haySegundo = false;
+    int primero = vec.maximo(0);
+    int segundo = vec.segundoMaximo(0, primero, haySegundo);
+    cout << "Mayor: " << primero << "; segundo mayor distinto: ";
+    if (haySegundo) {
+        cout << segundo << endl;
+    } else {
+        cout << "no existe" << endl;
+    }
+
+    cout << "Suma maxima de un segmento: " << vec.mejorSegmento(0) << endl;
+
+    // a partir de aca se modifica el vector
+    vec.cambiar(4, 0, 0);
+    cout << "Reemplazando 4 por 0: ";
+    vec.imprimir(0);
+
+    vec.darVuelta(0, vec.getCant() - 1);
+    cout << "Invertido: ";
+    vec.imprimir(0);
+
+    vec.quitarPos(0);
+    cout << "Eliminando la posicion 0: ";
+    vec.imprimir(0);
+
+    vec.ordenar(vec.getCant());
+    cout << "Ordenado: ";
+    vec.imprimir(0);
+
+    cout << "Busqueda binaria de 10: " << vec.binaria(10, 0, vec.getCant() - 1) << endl;
+
+    vec.quitarRepetidos(0);
+    cout << "Sin duplicados: ";
+    vec.imprimir(0);
+
+    vec.paresPrimero(0, vec.getCant() - 1);
+    cout << "Pares e impares: ";
+    vec.imprimir(0);
+
+    vec.rotar(2);
+    cout << "Rotado 2 a la derecha: ";
+    vec.imprimir(0);
+
+    // ---------------- MATRICES ----------------
+    int filas, columnas;
+
+    cout << endl;
+    cout << "Filas de la matriz: ";
+    cin >> filas;
+    cout << "Columnas de la matriz: ";
+    cin >> columnas;
+
+    Matriz mat(filas, columnas);
+
+    mat.leer(0, 0);
+    cout << "Matriz cargada:" << endl;
+    mat.imprimir(0, 0);
+
+    cout << "Suma total: " << mat.sumaTodo(0) << endl;
+
+    cout << "Pares: " << mat.cuantosPares(0, 0) << "; impares: " << mat.cuantosImpares(0, 0) << endl;
+
+    cout << "Mayor: " << mat.maximo(0) << endl;
+
+    int valorMin, fMin, cMin;
+    mat.minimoConPosicion(valorMin, fMin, cMin);
+    cout << "Menor: " << valorMin << "; fila: " << fMin << "; columna: " << cMin << endl;
+
+    cout << "Positivos: " << mat.cuantosPositivos(0, 0);
+    cout << "; negativos: " << mat.cuantosNegativos(0, 0);
+    cout << "; ceros: " << mat.cuantosCeros(0, 0) << endl;
+
+    int fHallada, cHallada;
+    if (mat.buscar(8, 0, 0, fHallada, cHallada)) {
+        cout << "8 encontrado en fila " << fHallada << ", columna " << cHallada << endl;
+    } else {
+        cout << "8 no encontrado" << endl;
+    }
+
+    cout << "Suma de cada fila:" << endl;
+    mat.mostrarSumaFilas(0);
+
+    cout << "Suma de cada columna:" << endl;
+    mat.mostrarSumaColumnas(0);
+
+    cout << "Suma diagonal principal: " << mat.diagonalPrincipal(0) << endl;
+    cout << "Suma diagonal secundaria: " << mat.diagonalSecundaria(0) << endl;
+
+    cout << "Encima de la diagonal: " << mat.sumaEncima(0, 0);
+    cout << "; debajo: " << mat.sumaDebajo(0, 0) << endl;
+
+    cout << "Borde:" << endl;
+    mat.imprimirBorde(0, 0);
+
+    cout << "Suma del borde: " << mat.sumaBorde() << endl;
+
+    cout << "Transpuesta:" << endl;
+    mat.imprimirTranspuesta(0, 0);
+
+    cout << "Mayor de cada fila:" << endl;
+    mat.mostrarMaximoFilas(0);
+
+    cout << "Es simetrica?: " << (mat.esSimetrica(0, 0) ? "Si" : "No") << endl;
+
+    cout << "Rotada 90 grados:" << endl;
+    mat.imprimirRotada(0, filas - 1);
+
+    cout << "Recorrido en espiral: ";
+    mat.espiral(0, filas - 1, 0, columnas - 1);
+
+    cout << "Triangular superior?: " << (mat.esTriangularSup(0, 0) ? "Si" : "No") << endl;
+
+    cout << "Triangulo superior: " << mat.sumaTrianguloSup(0, 0);
+    cout << "; triangulo inferior: " << mat.sumaTrianguloInf(0, 0) << endl;
+
+    if (mat.puntosSilla(0, 0) == 0) {
+        cout << "No hay punto de silla" << endl;
+    }
+
+    if (!mat.haySecuencia(0, 0, 3)) {
+        cout << "No existe secuencia" << endl;
+    }
+
+    cout << "Suma maxima: " << mat.mejorCamino(0, 0) << "; camino: ";
+    mat.imprimirCamino(0, 0);
+
+    return 0;
+}
